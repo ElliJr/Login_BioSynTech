@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioSynTech - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=logout,close" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .campoUser {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .campoUser img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #nameUser {
+            font-weight: 600;
+            color: #333;
+            min-width: 150px;
+        }
+
+        #sairBtn {
+            cursor: pointer;
+            color: #e74c3c;
+            transition: color 0.3s;
+        }
+
+        #sairBtn:hover {
+            color: #c0392b;
+        }
+
+        .hero__inner {
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .hero__title {
+            font-size: 48px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .hero__lead {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        #login-box,
+        #create-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn--primary {
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .btn--primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn--primary:active {
+            transform: translateY(0);
+        }
+
+        .btn--primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #google-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        #google-login:hover {
+            background: #f9f9f9;
+            border-color: #667eea;
+        }
+
+        #google-login i {
+            font-size: 18px;
+            color: #ea4335;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .success {
+            color: #27ae60;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-big {
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: none;
+            z-index: 9999;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .main-content {
+            display: none;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-content.show {
+            display: block;
+        }
+
+        /* WELCOME MESSAGE */
+        .welcome-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-section h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-section p {
+            color: #666;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO -->
+    <div class="hero">
+        <div class="campoUser">
+            <label for="iconFileInput" style="cursor: pointer;">
+                <img id="preview" src="https://placehold.co/40x40/667eea/ffffff?text=👤" alt="Perfil" onerror="this.src='https://placehold.co/40x40/667eea/ffffff?text=👤'">
+                <input type="file" id="iconFileInput" style="display: none;" accept="image/*">
+            </label>
+            <h5 id="nameUser"></h5>
+            <div id="sairBtn" style="display: none;">
+                <span class="material-symbols-outlined" style="font-size: 20px;">logout</span>
+            </div>
+        </div>
+
+        <div class="hero__inner">
+            <h1 class="hero__title">🧬 BioSynTech</h1>
+            <p class="hero__lead">Crie sua conta, é grátis.</p>
+            <button onclick="openModal()" id="openModal" class="btn btn--primary btn-big">Criar Conta</button>
+        </div>
+
+        <!-- MODAL PRINCIPAL -->
+        <div id="main-modal" class="modal">
+            <div class="modal-content">
+                <!-- ABAS -->
+                <div class="tabs">
+                    <div id="tab-login" class="tab active" onclick="showLogin()">Login</div>
+                    <div id="tab-create" class="tab" onclick="showCreate()">Criar Conta</div>
+                </div>
+
+                <!-- LOGIN -->
+                <div id="login-box">
+                    <input type="email" id="login-email" placeholder="Seu email">
+                    <input type="password" id="login-password" placeholder="Sua senha">
+                    <button id="btn-login" type="button" class="btn--primary">Entrar</button>
+                    <p class="error" id="login-error"></p>
+                </div>
+
+                <!-- CRIAR CONTA -->
+                <div id="create-box" style="display: none;">
+                    <input type="text" id="create-apelido" placeholder="Seu apelido">
+                    <input type="email" id="create-email" placeholder="Seu email">
+                    <input type="password" id="create-password" placeholder="Sua senha">
+                    <button id="btn-create" type="button" class="btn--primary">Criar Conta</button>
+                    <p class="error" id="create-error"></p>
+                </div>
+
+                <button id="google-login" type="button">
+                    <i class="fab fa-google"></i>
+                    <span>Entrar com Google</span>
+                </button>
+
+                <div class="close" onclick="closeModal()">
+                    <span class="material-symbols-outlined">close</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO APÓS LOGIN -->
+    <div id="loja-main-content" class="main-content">
+        <div class="welcome-section">
+            <h2>Bem-vindo ao BioSynTech! 🎉</h2>
+            <p>Você foi autenticado com sucesso. Esta é sua área exclusiva.</p>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import { 
+            getAuth, 
+            signOut,
+            GoogleAuthProvider, 
+            signInWithPopup,
+            setPersistence,
+            browserLocalPersistence,
+            createUserWithEmailAndPassword,
+            onAuthStateChanged,
+            signInWithEmailAndPassword,
+            updateProfile
+        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+
+        // CONFIGURAÇÃO DO FIREBASE FAVOR NÃO NÃO ALTERAR
+        const firebaseConfig = {
+            apiKey: "AIzaSyCfTamd-cCerKdXxsl1SrOqKKKz5gf7qek",
+            authDomain: "biosyntech-fe492.firebaseapp.com",
+            projectId: "biosyntech-fe492",
+            storageBucket: "biosyntech-fe492.firebasestorage.app",
+            messagingSenderId: "731720654700",
+            appId: "1:731720654700:web:40ecd6b5304b0cd1171d49",
+            measurementId: "G-ERSN909NSE"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+        const provider = new GoogleAuthProvider();
+
+        // FUNÇÕES GLOBAIS
+        window.openModal = () => document.getElementById("main-modal").classList.add("show");
+        window.closeModal = () => document.getElementById("main-modal").classList.remove("show");
+
+        window.showLogin = () => {
+            document.getElementById("login-box").style.display = "flex";
+            document.getElementById("create-box").style.display = "none";
+            document.getElementById("tab-login").classList.add("active");
+            document.getElementById("tab-create").classList.remove("active");
+        };
+
+        window.showCreate = () => {
+            document.getElementById("login-box").style.display = "none";
+            document.getElementById("create-box").style.display = "flex";
+            document.getElementById("tab-create").classList.add("active");
+            document.getElementById("tab-login").classList.remove("active");
+        };
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 3000);
+        }
+
+        function loggedUi() {
+            document.querySelector("#openModal").style.display = "none";
+            document.querySelector(".hero__lead").style.display = "none";
+            document.querySelector("#loja-main-content").classList.add("show");
+            document.querySelector("#sairBtn").style.display = "block";
+            document.querySelector(".campoUser").style.display = "flex";
+        }
+
+        function logoutUi() {
+            document.querySelector("#openModal").style.display = "inline-block";
+            document.querySelector(".hero__lead").style.display = "block";
+            document.querySelector("#loja-main-content").classList.remove("show");
+            document.querySelector("#sairBtn").style.display = "none";
+            document.querySelector("#nameUser").textContent = "";
+        }
+
+        // MONITORAR AUTENTICAÇÃO
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Usuário restaurado:", user.email);
+                document.querySelector("#nameUser").innerText = user.email;
+                loggedUi();
+            } else {
+                console.log("Nenhum usuário logado.");
+                logoutUi();
+            }
+        });
+
+        // CRIAR CONTA
+        document.getElementById("btn-create").addEventListener("click", async () => {
+            const apelido = document.getElementById("create-apelido").value;
+            const email = document.getElementById("create-email").value;
+            const password = document.getElementById("create-password").value;
+            const errorDiv = document.getElementById("create-error");
+
+            errorDiv.style.display = "none";
+
+            if (!apelido || !email || !password) {
+                errorDiv.textContent = "Preencha todos os campos";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            try {
+                await setPersistence(auth, browserLocalPersistence);
+                const result = await createUserWithEmailAndPassword(auth, email, password);
+                
+                // Atualizar perfil com o apelido
+                await updateProfile(result.user, {
+                    displayName: apelido
+                });
+
+                showToast("Conta criada com sucesso!");
+                document.getElementById("create-apelido").value = "";
+                document.getElementById("create-email").value = "";
+                document.getElementById("create-password").value = "";
+                window.closeModal();
+                window.showLogin();
+            } catch (error) {
+                let message = error.message;
+                if (error.code === 'auth/email-already-in-use') {
+                    message = "Email já cadastrado";
+                } else if (error.code === 'auth/weak-password') {
+                    message = "Senha muito fraca (mínimo 6 caracteres)";
+                }
+                errorDiv.textContent = message;
+                errorDiv.style.display = "block";
+            }
+        });
+
+        // LOGIN COM EMAIL
+        document.getElementById("btn-login").addEventListener("click", async () => {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            const errorDiv = document.getElementById("login-error");
+
+            errorDiv.style.display = "none";
+
+            if (!email || !password) {
+                errorDiv.textContent = "Preencha todos os campos";
+                errorDiv.style.display = "block";
+                return;
+            }
+
+            try {
+                await setPersistence(auth, browserLocalPersistence);
+                await signInWithEmailAndPassword(auth, email, password);
+                showToast("Login realizado com sucesso!");
+                window.closeModal();
+            } catch (error) {
+                let message = error.message;
+                if (error.code === 'auth/user-not-found') {
+                    message = "Usuário não encontrado";
+                } else if (error.code === 'auth/wrong-password') {
+                    message = "Senha incorreta";
+                }
+                errorDiv.textContent = message;
+                errorDiv.style.display = "block";
+            }
+        });
+
+        // LOGIN COM GOOGLE
+        document.getElementById("google-login").addEventListener("click", async () => {
+            try {
+                await setPersistence(auth, browserLocalPersistence);
+                const result = await signInWithPopup(auth, provider);
+                showToast("Login com Google realizado!");
+                window.closeModal();
+            } catch (error) {
+                document.getElementById("login-error").textContent = error.message;
+                document.getElementById("login-error").style.display = "block";
+            }
+        });
+
+        // LOGOUT
+        document.getElementById("sairBtn").addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+                showToast("Logout realizado com sucesso!");
+                document.getElementById("login-email").value = "";
+                document.getElementById("login-password").value = "";
+            } catch (error) {
+                console.error("Erro ao fazer logout:", error);
+            }
+        });
+
+        // UPLOAD DE FOTO
+        const iconInput = document.getElementById('iconFileInput');
+        const preview = document.getElementById('preview');
+
+        iconInput.addEventListener('change', async (event) => {
+            const file = event.target.files[0];
+            if (!file || !auth.currentUser) return;
+
+            preview.src = URL.createObjectURL(file);
+
+            try {
+                const storageRef = ref(storage, `users/${auth.currentUser.uid}/profile.jpg`);
+                await uploadBytes(storageRef, file);
+                const url = await getDownloadURL(storageRef);
+                
+                await updateProfile(auth.currentUser, {
+                    photoURL: url
+                });
+
+                preview.src = url;
+                showToast("Foto atualizada com sucesso!");
+            } catch (error) {
+                console.error("Erro no upload:", error);
+                showToast("Erro ao atualizar foto");
+            }
+        });
+    </script>
+</body>
+</html>
