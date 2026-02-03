@@ -93,6 +93,11 @@
             <p>Você foi autenticado com sucesso. Esta é sua área exclusiva.</p>
         </div>
     </div>
+    <div>
+    <div class="alert-fixed">
+        <i class="fas fa-exclamation-circle"></i>
+        <h4>PULO LEG DAY 😡</h4>
+    </div>
 
     <!-- TOAST -->
     <div id="toast" class="toast"></div>
@@ -160,6 +165,7 @@
             document.querySelector("#loja-main-content").classList.add("show");
             document.querySelector("#sairBtn").style.display = "block";
             document.querySelector(".campoUser").style.display = "flex";
+            document.querySelector(".alert-fixed").style.display = "block";  
         }
 
         function logoutUi() {
@@ -168,6 +174,8 @@
             document.querySelector("#loja-main-content").classList.remove("show");
             document.querySelector("#sairBtn").style.display = "none";
             document.querySelector("#nameUser").textContent = "";
+            document.querySelector(".campoUser").style.display = "none";
+            document.querySelector(".alert-fixed").style.display = "none";
         }
 
         // MONITORAR AUTENTICAÇÃO
