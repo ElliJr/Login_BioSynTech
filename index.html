@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #ffffff;
             min-height: 100vh;
         }
 
@@ -112,7 +112,7 @@
         }
 
         .tabs {
-            display: flex;
+            display: none;
             gap: 0;
             margin-bottom: 30px;
             border-bottom: 2px solid #f0f0f0;
@@ -130,50 +130,68 @@
         }
 
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #18362d;
+            border-bottom-color: #024632;
         }
 
         #login-box,
         #create-box {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 12px;
+        }
+
+        .input-group i {
+            color: #999;
+            font-size: 20px;
+            width: 24px;
         }
 
         input[type="email"],
         input[type="password"],
         input[type="text"] {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            flex: 1;
+            padding: 12px 0;
+            border: none;
+            background: transparent;
             font-size: 14px;
             font-family: 'Inter', sans-serif;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
 
         input[type="email"]:focus,
         input[type="password"]:focus,
         input[type="text"]:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-group:focus-within {
+            border-bottom-color: #024632;
         }
 
         .btn--primary {
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            background: #024632;
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
             width: 100%;
+            margin-top: 10px;
         }
-
         .btn--primary:hover {
+            background: #01362a;
             transform: translateY(-2px);
         }
 
@@ -191,19 +209,20 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 12px;
+            padding: 15px;
             background: white;
-            border: 2px solid #f0f0f0;
+            border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 20px;
+            margin-top: 30px;
+            color: #333;
         }
 
         #google-login:hover {
-            background: #f9f9f9;
-            border-color: #667eea;
+            background: #f5f5f5;
+            border-color: #024632;
         }
 
         #google-login i {
@@ -352,18 +371,37 @@
 
                 <!-- LOGIN -->
                 <div id="login-box">
-                    <input type="email" id="login-email" placeholder="Seu email">
-                    <input type="password" id="login-password" placeholder="Sua senha">
-                    <button id="btn-login" type="button" class="btn--primary">Entrar</button>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="email" id="login-email" placeholder="Email" autocomplete="email">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Senha" autocomplete="current-password">
+                    </div>
+                    <button id="btn-login" type="button" class="btn--primary">LOGIN</button>
                     <p class="error" id="login-error"></p>
                 </div>
 
                 <!-- CRIAR CONTA -->
                 <div id="create-box" style="display: none;">
-                    <input type="text" id="create-apelido" placeholder="Seu apelido">
-                    <input type="email" id="create-email" placeholder="Seu email">
-                    <input type="password" id="create-password" placeholder="Sua senha">
-                    <button id="btn-create" type="button" class="btn--primary">Criar Conta</button>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="create-apelido" placeholder="Username">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="create-email" placeholder="E-mail" autocomplete="email">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="create-password" placeholder="Senha">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="create-password-confirm" placeholder="Confirmar Senha">
+                    </div>
+                    <button id="btn-create" type="button" class="btn--primary">SIGN UP</button>
                     <p class="error" id="create-error"></p>
                 </div>
 
